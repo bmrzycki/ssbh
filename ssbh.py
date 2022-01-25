@@ -140,8 +140,8 @@ class Singularity:
         self.mkfile(
             'usr/local/bin/e',
             ['#!/bin/sh',
-             'test -z "$EDITOR" && EDITOR=vi\n',
-             '$EDITOR $EDITOR_ARGUMENTS "$@"\n'],
+             'test -z "$EDITOR" && EDITOR="vi"',
+             '$EDITOR $EDITOR_ARGUMENTS "$@"'],
             perms=0o755)
 
 
