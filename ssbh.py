@@ -250,13 +250,13 @@ class UnifiNetworkController(Ubuntu):
         if getuser() == 'root':
             raise RuntimeError(
                 "UNC does not support root-owned containers")
-        ps_haveged, ps_unc = False, False
+        ps_rand, ps_unc = False, False
         for name in ps_bins():
             if name == 'unifi':
                 ps_unc = True
-            elif name.endswith('/haveged'):
-                ps_haveged = True
-            if ps_haveged and ps_unc:
+            elif name.endswith('/haveged') or name.endswith('/rngd'):
+                ps_rand = True
+            if ps_rand and ps_unc:
                 break
         if ps_unc:
             raise RuntimeError(
@@ -285,9 +285,10 @@ class UnifiNetworkController(Ubuntu):
         self.exec('apt autoremove -y')
 
         print("")
-        if not ps_haveged:
-            print('WARNING: UNC requires the "haveged" daemon on '
-                  'headless hosts to generate sufficient entropy')
+        if not ps_rand:
+            print('WARNING: UNC requires an entropy generator on headless '
+                  'hosts to function efficiently. Consider "haveged" for a '
+                  'sw solution or "rngd" on the Pi 4+ for a hw one.')
         print("# UNC runs on https://localhost:8443")
         print("# Start:")
         print(f"#   singularity exec -fw {self.image_path} "
