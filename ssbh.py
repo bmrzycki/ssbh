@@ -303,7 +303,7 @@ class Homebridge(Ubuntu):
             if 'avahi-daemon:' in name:
                 ps_avahid = True
                 break
-        pkgs = 'dialog less gcc g++ make python net-tools wget'
+        pkgs = 'curl dialog less gcc g++ make python net-tools wget'
         if not ps_avahid:
             pkgs += ' avahi-daemon'
         if not image_path:
